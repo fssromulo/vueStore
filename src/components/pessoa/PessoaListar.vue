@@ -26,12 +26,14 @@
 					<td>{{pessoa.fone}}</td>
 					<td>{{pessoa.email}}</td>
 					<td>
-						<a :href="'pessoa/edit/' + pessoa.cd_pessoa" >Editar</a>&nbsp;&nbsp;
+						<router-link :to="{name: 'pessoaEdit', params:{cd_pessoa: pessoa.cd_pessoa}}" tag="a" exact>Editar</router-link>&nbsp;&nbsp;
 						<a :href="'pessoa/apagar/' + pessoa.cd_pessoa">Apagar</a>					
 					</td>
 				</tr>
 			</tbody>							
 		</table>
+
+		<router-view></router-view>
 	</div>
 </template>
 
@@ -47,7 +49,6 @@ export default {
 		}
 	},
 	methods: {
-		
 		loadPearsons () {
 			axios.get('http://localhost:3001/api/pessoa')
 			.then((response) => {			

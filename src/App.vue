@@ -1,13 +1,19 @@
 <template>
 	<div id="app">
+    <app-header></app-header>
+    <br/>
 		<router-view></router-view>
 	</div>
 </template>
 
 <script>
-// import PessoaListar from './components/pessoa/PessoaListar'
+import Header from './components/Header.vue'
 
-export default {}
+export default {
+  components: {
+    appHeader: Header
+  }
+}
 </script>
 
 <style>

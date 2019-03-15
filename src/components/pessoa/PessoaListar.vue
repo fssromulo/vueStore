@@ -5,7 +5,7 @@
 		<button @click="loadPearsons">
 			Carregar lista
 		</button>
-		
+
 		<br/>
 		<br/>
 
@@ -19,7 +19,7 @@
 					<th>Ações:</th>
 				</tr>
 			</thead>
-			<tbody>	
+			<tbody>
 				<tr v-for="(pessoa, chave) in arrPessoas" :key="chave">
 					<td>{{pessoa.cd_pessoa}}</td>
 					<td>{{pessoa.nm_pessoa}}</td>
@@ -27,10 +27,10 @@
 					<td>{{pessoa.email}}</td>
 					<td>
 						<router-link :to="{name: 'pessoaEdit', params:{cd_pessoa: pessoa.cd_pessoa}}" tag="a" exact>Editar</router-link>&nbsp;&nbsp;
-						<a :href="'pessoa/apagar/' + pessoa.cd_pessoa">Apagar</a>					
+						<a href="#" @click="apagarPessoa()">Apagar</a>
 					</td>
 				</tr>
-			</tbody>							
+			</tbody>
 		</table>
 
 		<router-view></router-view>
@@ -51,7 +51,13 @@ export default {
 	methods: {
 		loadPearsons () {
 			axios.get('http://localhost:3001/api/pessoa')
-			.then((response) => {			
+			.then((response) => {
+				this.arrPessoas = response.data;
+			})
+		},
+		apagarPessoa() {
+			axios.delete('http://localhost:3001/api/pessoa/' )
+			.then((response) => {
 				this.arrPessoas = response.data;
 			})
 		}

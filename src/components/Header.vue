@@ -1,8 +1,8 @@
 <template>
     <div>
         <ul class="nav nav-pills">
-        <li role="presentation" class="active"><a href="#">Home</a></li>
-        <li role="presentation"><a href="#">Profile</a></li>
+        <router-link :to="{name: 'pessoaList'}" tag="li" exact><a>Gerenciar pessoas</a></router-link>&nbsp;&nbsp;
+        <li role="presentation"><a href="#Não funciona">Profile</a></li>
         </ul>
     </div>
 </template>

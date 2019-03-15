@@ -1,37 +1,36 @@
 <template>
-	<div class="hello">
-		<h1>{{ varTeste }}</h1>
+	<div>
 		<br/>
-		<button @click="loadPearsons">
+		<button class="btn btn-success" @click="carregarPessoas">
 			Carregar lista
 		</button>
 
-		<br/>
-		<br/>
-
-		<table border="1">
-			<thead>
-				<tr>
-					<th>Código:</th>
-					<th>Nome:</th>
-					<th>Fone:</th>
-					<th>E-mail:</th>
-					<th>Ações:</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr v-for="(pessoa, chave) in arrPessoas" :key="chave">
-					<td>{{pessoa.cd_pessoa}}</td>
-					<td>{{pessoa.nm_pessoa}}</td>
-					<td>{{pessoa.fone}}</td>
-					<td>{{pessoa.email}}</td>
-					<td>
-						<router-link :to="{name: 'pessoaEdit', params:{cd_pessoa: pessoa.cd_pessoa}}" tag="a" exact>Editar</router-link>&nbsp;&nbsp;
-						<a href="#" @click="apagarPessoa()">Apagar</a>
-					</td>
-				</tr>
-			</tbody>
-		</table>
+		<br/><br/>
+		<div class="table-responsive">
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th>Código:</th>
+						<th>Nome:</th>
+						<th>Fone:</th>
+						<th>E-mail:</th>
+						<th>Ações:</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr v-for="(pessoa, chave) in arrPessoas" :key="chave">
+						<td>{{pessoa.cd_pessoa}}</td>
+						<td>{{pessoa.nm_pessoa}}</td>
+						<td>{{pessoa.fone}}</td>
+						<td>{{pessoa.email}}</td>
+						<td>
+							<router-link :to="{name: 'pessoaEdit', params:{cd_pessoa: pessoa.cd_pessoa}}" tag="a" exact>Editar</router-link>&nbsp;&nbsp;
+							<button class="btn btn-danger" @click="apagarPessoa(pessoa.cd_pessoa)">Apagar</button>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
 
 		<router-view></router-view>
 	</div>
@@ -44,23 +43,26 @@ export default {
 	name: "AppNovo",
 	data() {
 		return {
-			varTeste : 'Vue store!!!',
 			arrPessoas : []
 		}
 	},
 	methods: {
-		loadPearsons () {
+		carregarPessoas() {
 			axios.get('http://localhost:3001/api/pessoa')
 			.then((response) => {
 				this.arrPessoas = response.data;
 			})
 		},
-		apagarPessoa() {
-			axios.delete('http://localhost:3001/api/pessoa/' )
-			.then((response) => {
-				this.arrPessoas = response.data;
+		apagarPessoa(cd_pessoa_param) {
+			axios.delete('http://localhost:3001/api/pessoa/' + cd_pessoa_param )
+			.then(() => {
+				this.carregarPessoas();
 			})
 		}
+	},
+	mounted() {
+		console.log('passou aqui na hora de listar');
+		this.carregarPessoas();
 	}
 }
 </script>

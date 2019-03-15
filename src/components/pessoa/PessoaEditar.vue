@@ -1,53 +1,65 @@
 <template>
 	<div>
-		<h1>
-			Editar - Pessoa {{this.$route.params.cd_pessoa}}
-		</h1>
+		<h4>
+			Editar - Pessoa Cód.{{this.$route.params.cd_pessoa}}
+		</h4>
+		<div class="row">
+			<div class="col-sm-12">
+				<form class="form-horizontal">
+					<div class="form-group">
+						<input
+							type="number"
+							v-model="arrPessoaEditar.cd_pessoa"
+							id="cd_pessoa"
+							class="form-control"
+							placeholder="Código da pessoa"
+							disabled
+						/>
+					</div>
 
-		<div>
-			<input 
-				type="number"
-				v-model="arrPessoaEditar.cd_pessoa" 
-				id="cd_pessoa"
-				placeholder="Código da pessoa"
-			/>
-		</div>
+					<div class="form-group">
+						<input
+							type="text"
+							v-model="arrPessoaEditar.nm_pessoa"
+							id="nm_pessoa"
+							class="form-control"
+							placeholder="Nome da pessoa"
+						/>
+					</div>
 
-		<div>
-			<input 
-				type="text"
-				v-model="arrPessoaEditar.nm_pessoa" 
-				id="nm_pessoa"
-				placeholder="Nome da pessoa"
-			/>
-		</div>
+					<div class="form-group">
+						<input
+							type="email"
+							v-model="arrPessoaEditar.email"
+							id="email"
+							class="form-control"
+							placeholder="Email da pessoa"
+						/>
+					</div>
 
-		<div>
-			<input 
-				type="email"
-				v-model="arrPessoaEditar.email" 
-				id="email"
-				placeholder="Email da pessoa"
-			/>
-		</div>
+					<div class="form-group">
+						<input
+							type="Fone"
+							v-model="arrPessoaEditar.fone"
+							id="fone"
+							class="form-control"
+							placeholder="Fone da pessoa"
+						/>
+					</div>
+					<br/>
+					<br/>
 
-		<div>
-			<input 
-				type="Fone"
-				v-model="arrPessoaEditar.fone" 
-				id="fone"
-				placeholder="Fone da pessoa"
-			/>
+					<button type="button" class="btn btn-primary" @click="alterarPessoa">Alterar</button> &nbsp;
+					<button type="button" class="btn btn-danger" @click="voltarListagem">Voltar</button>
+				</form>
+			</div>
 		</div>
-		<br/>
-		<br/>
-		<button @click="putPessoa">Alterar!!</button>
 	</div>
 </template>
 
 <script>
 import axios from 'axios';
-import PessoaListar from './PessoaListar'
+import PessoaListar from './PessoaListar';
 
 export default {
 	component: {
@@ -64,14 +76,13 @@ export default {
 		}
 	},
 	methods: {
-		loadPearson () {
+		carregarPessoa () {
 			axios.get('http://localhost:3001/api/pessoa/' + this.$route.params.cd_pessoa)
-			.then((response) => {			
+			.then((response) => {
 				this.arrPessoaEditar = response.data['0'];
 			})
 		},
-		putPessoa() {
-
+		alterarPessoa() {
 			let arrAlterar = {
 				'nm_pessoa' : this.arrPessoaEditar.nm_pessoa,
 				'email' : this.arrPessoaEditar.email,
@@ -83,19 +94,21 @@ export default {
 				arrAlterar,
 				{headers: { 'content-type' : 'application/json' }}
 			)
-			.then(() => {		
-				alert('Usuário alterado com sucesso - Agora deve carregar a tabela!');	
-				this.PessoaListar.loadPearsons();
-				this.loadPearson();
-			})	
+			.then(() => {
+				alert('Alterado com sucesso!');
+				this.voltarListagem();
+			})
+		},
+		voltarListagem() {
+			this.$router.push('/pessoa');
 		}
 	},
 	mounted() {
-		this.loadPearson();
+		this.carregarPessoa();
 	},
 	watch: {
 		'$route'() {
-			this.loadPearson();
+			this.carregarPessoa();
 		}
 	},
 }

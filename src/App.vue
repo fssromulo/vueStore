@@ -1,8 +1,10 @@
 <template>
-	<div id="app">
-    <app-header></app-header>
-    <br/>
-		<router-view></router-view>
+	<div id="app" class="container-fluid">
+    <div class="col-md-8 col-md-offset-2">
+      <app-header></app-header>
+      <br/>
+      <router-view></router-view>
+    </div>
 	</div>
 </template>
 

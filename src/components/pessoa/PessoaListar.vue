@@ -14,6 +14,7 @@
 						<th>Nome:</th>
 						<th>Fone:</th>
 						<th>E-mail:</th>
+						<th>Login:</th>
 						<th>Ações:</th>
 					</tr>
 				</thead>
@@ -22,6 +23,7 @@
 						<td>{{pessoa.cd_pessoa}}</td>
 						<td>{{pessoa.nm_pessoa}}</td>
 						<td>{{pessoa.fone}}</td>
+						<td>{{pessoa.login}}</td>
 						<td>{{pessoa.email}}</td>
 						<td>
 							<router-link :to="{name: 'pessoaEdit', params:{cd_pessoa: pessoa.cd_pessoa}}" tag="a" exact>Editar</router-link>&nbsp;&nbsp;
@@ -61,7 +63,6 @@ export default {
 		}
 	},
 	mounted() {
-		console.log('passou aqui na hora de listar');
 		this.carregarPessoas();
 	}
 }

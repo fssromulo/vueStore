@@ -46,6 +46,26 @@
 							placeholder="Fone da pessoa"
 						/>
 					</div>
+
+					<div class="form-group">
+						<input
+							type="text"
+							v-model="arrPessoaEditar.login"
+							id="login"
+							class="form-control"
+							placeholder="Login da pessoa"
+						/>
+					</div>
+
+					<div class="form-group">
+						<input
+							type="password"
+							v-model="nova_senha"
+							id="senha"
+							class="form-control"
+							placeholder="Senha da pessoa"
+						/>
+					</div>
 					<br/>
 					<br/>
 
@@ -67,11 +87,14 @@ export default {
 	},
 	data() {
 		return {
+			nova_senha: '',
 			arrPessoaEditar : {
 				cd_pessoa : null,
 				nm_pessoa : '',
 				fone: '',
-				email: ''
+				email: '',
+				login: '',
+				senha: ''
 			}
 		}
 	},
@@ -83,10 +106,15 @@ export default {
 			})
 		},
 		alterarPessoa() {
+
+			this.nova_senha = (this.nova_senha.lenght > 0) ? this.nova_senha : this.arrPessoaEditar.senha;
+
 			let arrAlterar = {
 				'nm_pessoa' : this.arrPessoaEditar.nm_pessoa,
 				'email' : this.arrPessoaEditar.email,
-				'fone' : this.arrPessoaEditar.fone
+				'fone' : this.arrPessoaEditar.fone,
+				'login' : this.arrPessoaEditar.fone.trim(),
+				'senha' : 'md5("' + this.nova_senha +'")'
 			}
 
 			axios.put(

@@ -1,9 +1,18 @@
 <template>
 	<div>
 		<br/>
-		<button class="btn btn-success" @click="carregarPessoas">
-			Carregar lista
-		</button>
+		<div class="row">
+			<button class="btn btn-success" @click="carregarPessoas">
+				Carregar lista
+			</button> &nbsp;
+			<router-link 
+				:to="{name: 'pessoaCad'}" 
+				tag="button" 
+				class="btn btn-success"
+				exact
+			>Cadastrar nova pessoa</router-link>&nbsp;&nbsp;
+
+		</div>
 
 		<br/><br/>
 		<div class="table-responsive">
@@ -28,6 +37,7 @@
 						<td>
 							<router-link :to="{name: 'pessoaEdit', params:{cd_pessoa: pessoa.cd_pessoa}}" tag="a" exact>Editar</router-link>&nbsp;&nbsp;
 							<button class="btn btn-danger" @click="apagarPessoa(pessoa.cd_pessoa)">Apagar</button>
+							<!-- <button class="btn btn-danger" @click="getLogin(pessoa.login, pessoa.senha)">Logar</button> -->
 						</td>
 					</tr>
 				</tbody>

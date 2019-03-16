@@ -1,12 +1,17 @@
 <template>
 	<div>
 		<h4>
-			Editar - Pessoa Cód.{{this.$route.params.cd_pessoa}}
+			<span v-if="this.is_cadastrar">
+				Cadastrar - Pessoa 
+			</span>
+			<span v-if="!this.is_cadastrar">
+				Editar - Pessoa Cód.{{this.$route.params.cd_pessoa}}
+			</span>
 		</h4>
 		<div class="row">
 			<div class="col-sm-12">
 				<form class="form-horizontal">
-					<div class="form-group">
+					<div class="form-group"  v-if="!this.is_cadastrar">
 						<input
 							type="number"
 							v-model="arrPessoaEditar.cd_pessoa"
@@ -39,7 +44,7 @@
 
 					<div class="form-group">
 						<input
-							type="Fone"
+							type="tel"
 							v-model="arrPessoaEditar.fone"
 							id="fone"
 							class="form-control"
@@ -69,8 +74,15 @@
 					<br/>
 					<br/>
 
-					<button type="button" class="btn btn-primary" @click="alterarPessoa">Alterar</button> &nbsp;
-					<button type="button" class="btn btn-danger" @click="voltarListagem">Voltar</button>
+					<div>
+						<span v-if="this.is_cadastrar">
+							<button type="button" class="btn btn-primary" @click="salvarPessoa">Salvar</button> &nbsp;
+						</span>
+						<span v-if="!this.is_cadastrar">
+							<button type="button" class="btn btn-primary" @click="alterarPessoa">Editar</button> &nbsp;
+						</span>
+						<button type="button" class="btn btn-danger" @click="voltarListagem">Voltar</button>
+					</div>	
 				</form>
 			</div>
 		</div>
@@ -87,6 +99,7 @@ export default {
 	},
 	data() {
 		return {
+			is_cadastrar: false,
 			nova_senha: '',
 			arrPessoaEditar : {
 				cd_pessoa : null,
@@ -105,6 +118,20 @@ export default {
 				this.arrPessoaEditar = response.data['0'];
 			})
 		},
+		salvarPessoa() {
+
+			this.arrPessoaEditar.senha = this.nova_senha;
+
+			axios.post(
+				'http://localhost:3001/api/pessoa/',
+				this.arrPessoaEditar,
+				{headers: { 'content-type' : 'application/json' }}
+			)
+			.then(() => {
+				alert('Cadastrado com sucesso!');
+				this.voltarListagem();
+			})			
+		},
 		alterarPessoa() {
 
 			this.nova_senha = (this.nova_senha.lenght > 0) ? this.nova_senha : this.arrPessoaEditar.senha;
@@ -112,9 +139,9 @@ export default {
 			let arrAlterar = {
 				'nm_pessoa' : this.arrPessoaEditar.nm_pessoa,
 				'email' : this.arrPessoaEditar.email,
-				'fone' : this.arrPessoaEditar.fone,
-				'login' : this.arrPessoaEditar.fone.trim(),
-				'senha' : 'md5("' + this.nova_senha +'")'
+				'fone'  : this.arrPessoaEditar.fone,
+				'login' : this.arrPessoaEditar.login.trim(),
+				'senha' : this.nova_senha
 			}
 
 			axios.put(
@@ -132,7 +159,22 @@ export default {
 		}
 	},
 	mounted() {
-		this.carregarPessoa();
+		this.is_cadastrar = !this.$route.params.cd_pessoa;
+
+		// Esta alterando? Carrega a pessoa
+		if (!this.is_cadastrar) {
+			this.carregarPessoa();
+			return;
+		}
+
+		this.arrPessoaEditar = {
+			'nm_pessoa': '',
+			'email': '',
+			'fone': '',
+			'login': '',
+			'senha': ''
+		}
+
 	},
 	watch: {
 		'$route'() {

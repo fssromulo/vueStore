@@ -6,6 +6,9 @@ import {routes} from './routes'
 Vue.use(VueRouter);
 Vue.config.productionTip = false
 
+import axios from 'axios';
+axios.defaults.baseURL = 'http://localhost:3001/api/';
+
 const router = new VueRouter({
 	routes,
 	mode: 'history'

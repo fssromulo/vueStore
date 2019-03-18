@@ -79,7 +79,7 @@
 							<button type="button" class="btn btn-primary" @click="salvarPessoa">Salvar</button> &nbsp;
 						</span>
 						<span v-if="!this.is_cadastrar">
-							<button type="button" class="btn btn-primary" @click="alterarPessoa">Editar</button> &nbsp;
+							<button type="button" class="btn btn-primary" @click="salvarPessoaFirebase">Editar</button> &nbsp;
 						</span>
 						<button type="button" class="btn btn-danger" @click="voltarListagem">Voltar</button>
 					</div>	
@@ -91,6 +91,7 @@
 
 <script>
 import axios from 'axios';
+import axiosFirebase from '../axios-firebase/axios-firebase'
 import PessoaListar from './PessoaListar';
 
 export default {
@@ -113,17 +114,31 @@ export default {
 	},
 	methods: {
 		carregarPessoa () {
-			axios.get('http://localhost:3001/api/pessoa/' + this.$route.params.cd_pessoa)
+			axios.get('pessoa/' + this.$route.params.cd_pessoa)
 			.then((response) => {
 				this.arrPessoaEditar = response.data['0'];
 			})
 		},
-		salvarPessoa() {
+		salvarPessoaFirebase() {
+			// https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=[API_KEY]
+			this.arrPessoaEditar.senha = this.nova_senha;
 
+			axiosFirebase.post(
+				'pessoa.json',
+				this.arrPessoaEditar,
+				{headers: { 'content-type' : 'application/json' }}
+			)
+			.then(() => {
+				alert('Cadastrado com sucesso!');
+				this.voltarListagem();
+			})	
+
+		},
+		salvarPessoa() {
 			this.arrPessoaEditar.senha = this.nova_senha;
 
 			axios.post(
-				'http://localhost:3001/api/pessoa/',
+				'pessoa/',
 				this.arrPessoaEditar,
 				{headers: { 'content-type' : 'application/json' }}
 			)
@@ -145,7 +160,7 @@ export default {
 			}
 
 			axios.put(
-				'http://localhost:3001/api/pessoa/' + this.arrPessoaEditar.cd_pessoa,
+				'pessoa/' + this.arrPessoaEditar.cd_pessoa,
 				arrAlterar,
 				{headers: { 'content-type' : 'application/json' }}
 			)

@@ -60,13 +60,13 @@ export default {
 	},
 	methods: {
 		carregarPessoas() {
-			axios.get('http://localhost:3001/api/pessoa')
+			axios.get('pessoa')
 			.then((response) => {
 				this.arrPessoas = response.data;
 			})
 		},
 		apagarPessoa(cd_pessoa_param) {
-			axios.delete('http://localhost:3001/api/pessoa/' + cd_pessoa_param )
+			axios.delete('pessoa/' + cd_pessoa_param )
 			.then(() => {
 				this.carregarPessoas();
 			})

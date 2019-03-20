@@ -91,7 +91,7 @@
 
 <script>
 import axios from 'axios';
-import axiosFirebase from '../axios-firebase/axios-firebase'
+import axiosFirebase from '../../axios-firebase/axios-firebase'
 import PessoaListar from './PessoaListar';
 
 export default {

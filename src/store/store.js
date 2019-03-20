@@ -1,7 +1,8 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 
-import axiosFirebase from '../axios-firebase/axios-firebase'
+import axiosFirebase from '../axios-firebase/axios-firebase';
+import router from '../routes';
 
 Vue.use(Vuex);
 
@@ -41,6 +42,7 @@ export default new Vuex.Store({
 					token: res.data.idToken,
 					id : res.data.localId
 				});
+				router.replace('/pessoaList');
 			})									
 		},
 		login({commit}, authData) {
@@ -62,6 +64,7 @@ export default new Vuex.Store({
 		},
 		logout({commit}) {
 			commit('logout');
+			router.replace('/login?action=login');
 		}
 	}
 });

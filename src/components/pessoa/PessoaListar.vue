@@ -32,8 +32,8 @@
 						<td>{{pessoa.cd_pessoa}}</td>
 						<td>{{pessoa.nm_pessoa}}</td>
 						<td>{{pessoa.fone}}</td>
-						<td>{{pessoa.login}}</td>
 						<td>{{pessoa.email}}</td>
+						<td>{{pessoa.login}}</td>
 						<td>
 							<router-link :to="{name: 'pessoaEdit', params:{cd_pessoa: pessoa.cd_pessoa}}" tag="a" exact>Editar</router-link>&nbsp;&nbsp;
 							<button class="btn btn-danger" @click="apagarPessoa(pessoa.cd_pessoa)">Apagar</button>

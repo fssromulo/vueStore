@@ -174,6 +174,7 @@ export default {
 		}
 	},
 	mounted() {
+		this.carregarPessoa();
 		this.is_cadastrar = !this.$route.params.cd_pessoa;
 
 		// Esta alterando? Carrega a pessoa
@@ -189,12 +190,6 @@ export default {
 			'login': '',
 			'senha': ''
 		}
-
-	},
-	watch: {
-		'$route'() {
-			this.carregarPessoa();
-		}
-	},
+	}
 }
 </script>

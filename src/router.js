@@ -1,3 +1,6 @@
+import Vue from 'vue'
+import VueRouter from 'vue-router'
+
 import Pessoa from './components/pessoa/Pessoa'
 import PessoaListar from './components/pessoa/PessoaListar'
 import PessoaEditar from './components/pessoa/PessoaEditar'
@@ -5,6 +8,8 @@ import Login from './components/login/Login'
 
 // Importando a store do vue
 import store from './store/store';
+
+Vue.use(VueRouter)
 
 export const routes = [
 	{path: '/login', component: Login, name: 'login'},
@@ -24,3 +29,5 @@ export const routes = [
 		}
 	}
 ];
+
+export default new VueRouter({mode: 'history', routes})
